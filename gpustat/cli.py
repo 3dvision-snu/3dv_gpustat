@@ -184,7 +184,7 @@ def main(*argv):
         help='The width at which GPU names will be displayed.'
     )
     parser.add_argument(
-        '--gpuname-truncation-mode', type=str, default='left',
+        '--gpuname-truncation-mode', type=str, default='right',
         choices=["left", "right", "none"],
         help='The mode of GPU name truncation.'
     )
