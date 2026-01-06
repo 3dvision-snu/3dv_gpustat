@@ -189,6 +189,10 @@ def main(*argv):
         help='The mode of GPU name truncation.'
     )
     parser.add_argument(
+        '--skip-nvidia-printing', action='store_true', default=False,
+        help='Do not print NVIDIA'
+    )
+    parser.add_argument(
         '--debug', action='store_true', default=False,
         help='Allow to print additional informations for debugging.'
     )

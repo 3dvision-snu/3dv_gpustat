@@ -212,6 +212,7 @@ class GPUStat:
                  show_power=None,
                  gpuname_width=None,
                  gpuname_truncation_mode="left",
+                 skip_nvidia_printing=False,
                  eol_char=os.linesep,
                  term=None,
                  ):
@@ -305,7 +306,7 @@ class GPUStat:
                 _write(f"{util.shorten_left(self.name, width=gpuname_width, placeholder='…'):{gpuname_width}}",
                     color='CName')
             elif gpuname_truncation_mode == "right":
-                _write(f"{util.shorten_right(self.name, width=gpuname_width, placeholder='…'):{gpuname_width}}",
+                _write(f"{util.shorten_right(self.name, width=gpuname_width, placeholder='…', skip_nvidia_printing=skip_nvidia_printing):{gpuname_width}}",
                     color='CName')
             _write(" |")
 
@@ -658,7 +659,8 @@ class GPUStatCollection(Sequence[GPUStat]):
                         show_cmd=False, show_full_cmd=False, show_user=False,
                         show_pid=False, show_fan_speed=None,
                         show_codec="", show_power=None,
-                        gpuname_width=None, gpuname_truncation_mode="left", show_header=True,
+                        gpuname_width=None, gpuname_truncation_mode="left", skip_nvidia_printing=False,
+                        show_header=True,
                         no_processes=False,
                         eol_char=os.linesep,
                         ):
@@ -720,6 +722,7 @@ class GPUStatCollection(Sequence[GPUStat]):
                        show_power=show_power,
                        gpuname_width=gpuname_width,
                        gpuname_truncation_mode=gpuname_truncation_mode,
+                       skip_nvidia_printing=skip_nvidia_printing,
                        eol_char=eol_char,
                        term=t_color)
             fp.write(eol_char)

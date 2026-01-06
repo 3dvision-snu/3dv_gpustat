@@ -62,7 +62,7 @@ def shorten_left(text, width, placeholder="…"):
     return placeholder + text[-(width - len(placeholder)):]
 
 
-def shorten_right(text, width, placeholder="…"):
+def shorten_right(text, width, placeholder="…", skip_nvidia_printing=False):
     if width is None:
         return text
     if text is None or len(text) <= width:
@@ -77,7 +77,10 @@ def shorten_right(text, width, placeholder="…"):
     elif width - len(placeholder) < 0:
         return placeholder[:width]
         # raise ValueError("width is smaller than the length of placeholder.")
-    return text[:width - len(placeholder)] + placeholder
+    if skip_nvidia_printing:
+        return text[7:width - len(placeholder)] + placeholder
+    else:
+        return text[:width - len(placeholder)] + placeholder
 
 
 def safecall(fn: Callable[[], T],
