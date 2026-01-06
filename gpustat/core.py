@@ -306,7 +306,7 @@ class GPUStat:
                 _write(f"{util.shorten_left(self.name, width=gpuname_width, placeholder='…'):{gpuname_width}}",
                     color='CName')
             elif gpuname_truncation_mode == "right":
-                _write(f"{util.shorten_right(self.name, width=gpuname_width, placeholder='…', skip_nvidia_printing=skip_nvidia_printing):{gpuname_width}}",
+                _write(f"{util.shorten_right(self.name, width=gpuname_width, placeholder='…', skip_nvidia_printing=skip_nvidia_printing):{gpuname_width if not skip_nvidia_printing else gpuname_width - 7}}",
                     color='CName')
             _write(" |")
 
