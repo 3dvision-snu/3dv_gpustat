@@ -303,7 +303,7 @@ class GPUStat:
         _write(f"[{self.index}]", color=term.cyan)
         _write(" ")
 
-        to_ignore = ["geforce", "max-q", "workstation", "edition"]
+        to_ignore = ["geforce", "max-q", "workstation", "edition", "generation"]
         pattern_ignore = '|'.join(map(re.escape, to_ignore))
         filtered_name = re.sub(rf'({pattern_ignore})\s*', '', self.name, flags=re.IGNORECASE).strip()
 
