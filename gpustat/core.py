@@ -26,6 +26,8 @@ import time
 from datetime import datetime
 from io import StringIO
 
+import re
+
 import psutil
 from blessed import Terminal
 
@@ -213,6 +215,7 @@ class GPUStat:
                  gpuname_width=None,
                  gpuname_truncation_mode="left",
                  skip_nvidia_printing=False,
+                 skip_geforce=False,
                  eol_char=os.linesep,
                  term=None,
                  ):
@@ -300,13 +303,17 @@ class GPUStat:
         _write(f"[{self.index}]", color=term.cyan)
         _write(" ")
 
+        to_ignore = ["geforce", "max-q", "workstation", "edition"]
+        pattern_ignore = '|'.join(map(re.escape, to_ignore))
+        self.name = re.sub(rf'({pattern_ignore})\s*', '', self.name, flags=re.IGNORECASE).strip()
+
         if gpuname_width is None or gpuname_width != 0:
             gpuname_width = gpuname_width or DEFAULT_GPUNAME_WIDTH
             if gpuname_truncation_mode == "left":
                 _write(f"{util.shorten_left(self.name, width=gpuname_width, placeholder='…'):{gpuname_width}}",
                     color='CName')
             elif gpuname_truncation_mode == "right":
-                _write(f"{util.shorten_right(self.name, width=gpuname_width, placeholder='…', skip_nvidia_printing=skip_nvidia_printing):{gpuname_width if not skip_nvidia_printing else gpuname_width - 7}}",
+                _write(f"{util.shorten_right(self.name, width=gpuname_width, placeholder='…'):{gpuname_width}}",
                     color='CName')
             _write(" |")
 
