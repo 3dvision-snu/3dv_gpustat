@@ -62,6 +62,24 @@ def shorten_left(text, width, placeholder="…"):
     return placeholder + text[-(width - len(placeholder)):]
 
 
+def shorten_right(text, width, placeholder="…"):
+    if width is None:
+        return text
+    if text is None or len(text) <= width:
+        return text
+    if width < 0:
+        raise ValueError("width must be non-negative.")
+    if width == 0:
+        return ""
+
+    if width == len(placeholder):
+        return placeholder
+    elif width - len(placeholder) < 0:
+        return placeholder[:width]
+        # raise ValueError("width is smaller than the length of placeholder.")
+    return text[:width - len(placeholder)] + placeholder
+
+
 def safecall(fn: Callable[[], T],
              *,
              exc_types: Union[Type, Tuple[Type, ...]] = Exception,

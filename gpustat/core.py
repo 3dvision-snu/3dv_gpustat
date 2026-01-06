@@ -211,6 +211,7 @@ class GPUStat:
                  show_codec="",
                  show_power=None,
                  gpuname_width=None,
+                 gpuname_truncation_mode="left",
                  eol_char=os.linesep,
                  term=None,
                  ):
@@ -300,8 +301,12 @@ class GPUStat:
 
         if gpuname_width is None or gpuname_width != 0:
             gpuname_width = gpuname_width or DEFAULT_GPUNAME_WIDTH
-            _write(f"{util.shorten_left(self.name, width=gpuname_width, placeholder='…'):{gpuname_width}}",
-                   color='CName')
+            if gpuname_truncation_mode == "left":
+                _write(f"{util.shorten_left(self.name, width=gpuname_width, placeholder='…'):{gpuname_width}}",
+                    color='CName')
+            elif gpuname_truncation_mode == "right":
+                _write(f"{util.shorten_right(self.name, width=gpuname_width, placeholder='…'):{gpuname_width}}",
+                    color='CName')
             _write(" |")
 
         _write(rjustify(safe_self.temperature, 3), "°C", color='CTemp', end=', ')
@@ -653,7 +658,7 @@ class GPUStatCollection(Sequence[GPUStat]):
                         show_cmd=False, show_full_cmd=False, show_user=False,
                         show_pid=False, show_fan_speed=None,
                         show_codec="", show_power=None,
-                        gpuname_width=None, show_header=True,
+                        gpuname_width=None, gpuname_truncation_mode="left", show_header=True,
                         no_processes=False,
                         eol_char=os.linesep,
                         ):
@@ -714,6 +719,7 @@ class GPUStatCollection(Sequence[GPUStat]):
                        show_codec=show_codec,
                        show_power=show_power,
                        gpuname_width=gpuname_width,
+                       gpuname_truncation_mode=gpuname_truncation_mode,
                        eol_char=eol_char,
                        term=t_color)
             fp.write(eol_char)
