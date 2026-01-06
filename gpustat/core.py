@@ -305,15 +305,15 @@ class GPUStat:
 
         to_ignore = ["geforce", "max-q", "workstation", "edition"]
         pattern_ignore = '|'.join(map(re.escape, to_ignore))
-        self.name = re.sub(rf'({pattern_ignore})\s*', '', self.name, flags=re.IGNORECASE).strip()
+        filtered_name = re.sub(rf'({pattern_ignore})\s*', '', self.name, flags=re.IGNORECASE).strip()
 
         if gpuname_width is None or gpuname_width != 0:
             gpuname_width = gpuname_width or DEFAULT_GPUNAME_WIDTH
             if gpuname_truncation_mode == "left":
-                _write(f"{util.shorten_left(self.name, width=gpuname_width, placeholder='…'):{gpuname_width}}",
+                _write(f"{util.shorten_left(filtered_name, width=gpuname_width, placeholder='…'):{gpuname_width}}",
                     color='CName')
             elif gpuname_truncation_mode == "right":
-                _write(f"{util.shorten_right(self.name, width=gpuname_width, placeholder='…'):{gpuname_width}}",
+                _write(f"{util.shorten_right(filtered_name, width=gpuname_width, placeholder='…'):{gpuname_width}}",
                     color='CName')
             _write(" |")
 
